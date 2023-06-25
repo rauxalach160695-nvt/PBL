@@ -1,5 +1,6 @@
 
 const mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
 const Schema = mongoose.Schema;
  
 
@@ -10,7 +11,7 @@ const Task = new Schema({
     dayStart: { type: Date, required: true, default: Date.now},
     dayEnd: { type: Date, required: true, default: Date.now},
     deviceId: { type: Number, required: true, ref: 'Device'},
-    userIds : {type: Array, required:true}
+    userId : {type:ObjectId, required:true ,ref: 'Device'}
 });
 
 module.exports = mongoose.model('Task', Task);

@@ -5,7 +5,7 @@ const TaskAssignment = require("../models/TaskAssignment");
 
 router.post("/create", async (req, res) => {
   try {
-    const { nameTask, completed, dayStart, dayEnd, deviceId, userIds } =
+    const { nameTask, completed, dayStart, dayEnd, deviceId, userId } =
       req.body;
 
     //Create new Task
@@ -15,7 +15,7 @@ router.post("/create", async (req, res) => {
       dayStart,
       dayEnd,
       deviceId,
-      userIds,
+      userId,
     });
     await newTask.save();
 
@@ -27,7 +27,7 @@ router.post("/create", async (req, res) => {
 
 router.put("/edit", async (req, res) => {
   try {
-    const { taskId, nameTask, completed, dayStart, dayEnd, deviceId, userIds } =
+    const { taskId, nameTask, completed, dayStart, dayEnd, deviceId, userId } =
       req.body;
     await Task.findOneAndUpdate(
       { _id: taskId },
@@ -37,7 +37,7 @@ router.put("/edit", async (req, res) => {
         dayStart: dayStart,
         dayEnd: dayEnd,
         deviceId: deviceId,
-        userIds: userIds,
+        userId: userId,
       }
     );
 
@@ -47,7 +47,7 @@ router.put("/edit", async (req, res) => {
   }
 });
 
-router.delete("/edit", async (req, res) => {
+router.delete("/delete", async (req, res) => {
   try {
     const { taskId } =
       req.body;
