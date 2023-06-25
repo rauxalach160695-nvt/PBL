@@ -70,25 +70,6 @@ router.get("/getdevices", async (req, res) => {
     console.log(req.body)
     var deviceList = await Device.find().populate({path: 'stationId', model:'Station',select:['ward'],match:{province: province}})
     console.log(deviceList)
-    //Create new Task
-    // var listStation = await Station.find({province : province});
-    // var abc =[1,2,3]
-    // console.log(typeof(abc)+"4444");
-    // // var ListDevice = [{"1":"@#@#@"},2,3];
-    // // var gozu =[7,8,9]
-    // var ListDevice={}
-    // listStation.forEach(async(element)=> {
-    //   var Temp = await Device.find(
-    //    {stationId : element._id}
-    //       )
-    //   // Temp.forEach(async(dev)=> {
-    //   //   ListDevice.push('dev')
-    //   //   // console.log(ListDevice)
-    //   //     })
-    //   ListDevice['1'] = Temp
-    //   console.log(Temp)
-    // })
-    // console.log('ListDevice')
     return res.status(200).json({deviceList});
   } catch (err) {
     return res.status(500).json(err);
