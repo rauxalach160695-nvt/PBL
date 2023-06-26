@@ -157,7 +157,7 @@ router.get("/weather", async (req, res) => {
           // } else {
           //   finalString = finalString + "," + weather_result;
           // }
-          weather_result.push({"temp":temp,"humidity":humidity,"speed":speed})
+          weather_result.push({"temp":temp,"humidity":humidity,"speed":wind})
           // return response.json()
           z++;
           if (z === 15) {
