@@ -39,18 +39,6 @@ connectDB()
 
 route(app);
 
-const Device= require('./models/Device')
-
-app.get('/', (req, res) => {
-  // res.json(animal);
-  Device.create({ nameDevice: 'ABC123', status: '1', stationId: '34' })
-  .then((result) => {
-    res.send({ kq: 1, msg: 'Đã thêm thành công' })
-  })
-  .catch((err) => {
-    res.send({ kq: 0, msg: 'kết nối DB thất bại' })
-  });
-})
 
 app.listen(port, () => {
     console.log(`App listening on port http://localhost:${port}`);

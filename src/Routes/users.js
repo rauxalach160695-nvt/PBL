@@ -64,7 +64,7 @@ router.post("/signup", async (req, res) => {
 router.get("/login",(passport.authenticate('local', {session: false})), (req, res) => {
     let token = encodedToken(req.user._id)
     res.setHeader('Authorization', token)
-    return res.status(200).json(token)
+    return res.status(200).json({token})
     console.log("worked here")
   });
 
