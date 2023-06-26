@@ -14,9 +14,9 @@ function route(app) {
 
   app.use("/task", taskRouter);
 
-  app.use("/", (req, res) => {
-    return res.status(200).json({"running base":'error'})
-  });
+  // app.use("/", (req, res) => {
+  //   return res.status(200).json({"running base":'error'})
+  // });
 }
 
 module.exports = route;
