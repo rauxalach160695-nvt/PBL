@@ -149,7 +149,7 @@ router.get("/weather", async (req, res) => {
         if (response.statusCode === 200) {
           var temp = data["main"]["temp"];
           var humidity = data["main"]["humidity"];
-          var speed = data["wind"]["speed"];
+          var wind = data["wind"]["speed"];
           // console.log(temp, humidity, speed);
           // weather_result = `"${z}":{"temp":${temp},"humidity":${humidity},"speed":${speed}}`;
           // if (finalString === "") {
