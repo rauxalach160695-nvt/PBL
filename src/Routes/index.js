@@ -15,7 +15,7 @@ function route(app) {
   app.use("/task", taskRouter);
 
   app.use("/", (req, res) => {
-    res.send("nothing");
+    res.send("khong chay router");
   });
 }
 
