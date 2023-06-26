@@ -132,12 +132,13 @@ router.get("/weather", async (req, res) => {
     [10.5035, 106.8658],
     [10.7774, 106.6974],
   ];
+  var weather_result = [];
   var finalString = "";
   var z = 0;
   for (i in listStation) {
     var lat = listStation[i][0];
     var lon = listStation[i][1];
-    await request(
+   request(
       "https://api.openweathermap.org/data/2.5/weather?lat=" +
         lat +
         "&lon=" +
@@ -150,23 +151,24 @@ router.get("/weather", async (req, res) => {
           var humidity = data["main"]["humidity"];
           var speed = data["wind"]["speed"];
           // console.log(temp, humidity, speed);
-          weather_result = `"${z}":{"temp":${temp},"humidity":${humidity},"speed":${speed}}`;
-          if (finalString === "") {
-            finalString = weather_result;
-          } else {
-            finalString = finalString + "," + weather_result;
-          }
+          // weather_result = `"${z}":{"temp":${temp},"humidity":${humidity},"speed":${speed}}`;
+          // if (finalString === "") {
+          //   finalString = weather_result;
+          // } else {
+          //   finalString = finalString + "," + weather_result;
+          // }
+          weather_result.push({"temp":temp,"humidity":humidity,"speed":speed})
+          // return response.json()
           z++;
           if (z === 15) {
-            finalString = '{'+finalString+'}'
-            var finalResult = JSON.parse(finalString);
-            return res.status(200).json(finalResult);
+            return res.status(200).json(weather_result);
           }
         }
       }
     );
+    
   }
-
+  // return res.status(200).json(weather_result)
   // console.log(z)
   // res.send('hollyshit')
   // var finalResult = JSON.parse(finalString);
