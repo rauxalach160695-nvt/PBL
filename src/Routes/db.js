@@ -4,6 +4,7 @@ const Device = require("../models/Device");
 const User = require("../models/User");
 const request = require("request");
 const fs = require("fs");
+const Station = require("../models/Station");
 
 function base64_encode(file) {
   console.log("here");
@@ -45,55 +46,10 @@ router.get("/devices", (req, res) => {
   // });
 });
 
-const district = [
-  "Hải Châu",
-  "Thanh Khê",
-  "Liên Chiểu",
-  "Ngũ Hành Sơn",
-  "Cẩm Lệ",
-];
-const ward = [
-  ["Thanh Bình", "Thuận Phước", "Thạch Thang", "Hòa Thuận Tây"],
-  ["Xuân Hà", "Tam Thuận", "Tân Chính", "Thạc Gián"],
-  ["Hòa Khánh Nam", "Hòa Khánh Bắc", "Hòa Hiệp Nam", "Hòa Hiệp Bắc"],
-  ["Hòa Hải", "Hòa Quý", "Khuê Mỹ", "Mỹ An"],
-  ["Hòa An", "Hòa Phát", "Hòa Thọ Đông", "Hòa Thọ Tây"],
-];
 
-router.get("/stations", (req, res) => {
-  for (let i = 0; i < 5; i++) {
-    for (let j = 0; i < 4; j++) {
-      Device.create({ district: district[i], ward: ward[i][j], street: "122" });
-    }
-  }
-});
 
 //add user
-router.post("/users", (req, res) => {
-  User.create({ nameUser: "thinhnguyen12", password: "12345", role: "1" })
-    .then((result) => {
-      res.send("Đã thêm thành công");
-    })
-    .catch((err) => {
-      res.send("Thêm DB thất bại");
-    });
-});
 
-router.post("/testpost", async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    console.log(username, password);
-    var newUser = new User({
-      username,
-      password,
-      role: "1",
-    });
-    await newUser.save();
-    return res.status(200).json({ message: "da chay duoc" });
-  } catch (err) {
-    return res.status(500).json({ message: "deo on roi" });
-  }
-});
 
 //núi đôi , soc son ,soc son:21.2573,105.85
 //hồng hà, chương dương , hoan kiem : 21.0306, 105.8573
@@ -101,11 +57,11 @@ router.post("/testpost", async (req, res) => {
 // ĐL Thăng Long, TT. Quốc Oai, Quốc Oai, Hà Nội, Việt Nam:21.0034, 105.6323
 //Cổ Hoàng, Hoàng Long, Phú Xuyên, Hà Nội, Việt Nam :20.7627, 105.8318
 
-//hai chau: 16.0503  108.2191
-//thanh khe : 16.0695, 108.1966
-//lien chieu : 16.0974, 108.1393
-//ngu hanh son : 16, 108.2643
-//cam le : 16.0158, 108.2094
+//Hòa Thuận Đông, Hải Châu, Đà Nẵng 550000, Việt Nam: 16.0503  108.2191
+//K371 Trần Cao Vân, Xuân Hà, Thanh Khê, Đà Nẵng 550000, Việt Nam : 16.0695, 108.1966
+//33 Xuân Thiều 33, Hoà Hiệp Nam, Liên Chiểu, Đà Nẵng, Việt Nam : 16.0974, 108.1393
+//Mộc Sơn 3, Hoà Hải, Ngũ Hành Sơn, Đà Nẵng 550000, Việt Nam : 16, 108.2643
+//77-63 Lương Định Của, Khuê Trung, Cẩm Lệ, Đà Nẵng 550000, Việt Nam : 16.0158, 108.2094
 
 // Trần Thị Triên, Nhuận Đức, Củ Chi, Thành phố Hồ Chí Minh, Việt Nam :11.0278, 106.4831
 //163 Đ. Tây Hòa, Phước Long A, Quận 9, Thành phố Hồ Chí Minh, Việt Nam :10.8266, 106.7609
@@ -133,7 +89,6 @@ router.get("/weather", async (req, res) => {
     [10.7774, 106.6974],
   ];
   var weather_result = [];
-  var finalString = "";
   var z = 0;
   for (i in listStation) {
     var lat = listStation[i][0];
@@ -168,25 +123,16 @@ router.get("/weather", async (req, res) => {
     );
     
   }
-  // return res.status(200).json(weather_result)
-  // console.log(z)
-  // res.send('hollyshit')
-  // var finalResult = JSON.parse(finalString);
-  // res.send(finalResult);
-  // const { location } = req.body;
-  // var locationId;
-  // if (location == "HaiChau") {
-  //   locationId = 0;
-  // } else if (location == "ThanhKhe") {
-  //   locationId = 1;
-  // } else if (location == "LienChieu") {
-  //   locationId = 2;
-  // } else if (location == "NguHanhSon") {
-  //   locationId = 3;
-  // } else {
-  //   locationId = 4;
-  // }
-
-  // return res.status(200).json({ });
+  
 });
+
+router.get("/getStation", async (req, res) => {
+  try {
+    var listStation = await Station.find({})
+    return res.status(200).json(listStation);
+  } catch (err) {
+    return res.status(500).json({ err });
+  }
+});
+
 module.exports = router;

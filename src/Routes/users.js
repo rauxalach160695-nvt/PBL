@@ -21,7 +21,7 @@ const encodedToken = (userID) => {
 
 router.post("/signup", async (req, res) => {
   try {
-    const { username, password, nameUser, phoneNumber, role} = req.body;
+    const { username, password, fullName, phoneNumber, role, email, workSpace, dateOfBirth } = req.body;
 
     //check if username exist
     const foundUser = await User.findOne({ username });
@@ -37,6 +37,7 @@ router.post("/signup", async (req, res) => {
       username,
       password,
       role,
+      workSpace
     });
     await newUser.save();
     console.log(newUser._id)
@@ -44,9 +45,11 @@ router.post("/signup", async (req, res) => {
     //create a new UserDetail
     const userId = newUser._id
     var newUserDetail = new UserDetail({
-      nameUser,
+      fullName,
       phoneNumber,
-      userId
+      userId,
+      dateOfBirth,
+      email
     })
     await newUserDetail.save();
 

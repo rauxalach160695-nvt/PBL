@@ -4,31 +4,18 @@ const Device = require("../models/Device");
 const Station = require("../models/Station")
 const { ObjectId } = require('mongodb');
 
-router.post("/addStation", async (req, res) => {
-  try {
-    const { district} = req.body;
-    console.log(req.body)
-    //Create new Task
-    var newStation = new Station({
-      district
-    });
-    await newStation.save();
 
-    return res.status(200).json({ message: true });
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-});
 
 
 //add device follow station
 
 router.post("/add", async (req, res) => {
   try {
-    const { nameDevice, status, province, district, ward, street  } = req.body;
+    const { nameDevice, status, province, district, ward, street, nameStation } = req.body;
     console.log(req.body)
     //Create new Task
     var newStation = Station({
+      nameStation,
       province,
       district,
       ward,
@@ -43,7 +30,7 @@ router.post("/add", async (req, res) => {
     });
     await newDevice.save();
     var newDevice = new Device({
-      nameDevice : "CLOUD-"+nameDevice,
+      nameDevice : "HUMI-"+nameDevice,
       status,
       role : 2,
       stationId : newStation._id,
@@ -53,6 +40,13 @@ router.post("/add", async (req, res) => {
       nameDevice : "WIND-"+nameDevice,
       status,
       role : 3,
+      stationId : newStation._id,
+    });
+    await newDevice.save();
+    var newDevice = new Device({
+      nameDevice : "CAM-"+nameDevice,
+      status,
+      role : 4,
       stationId : newStation._id,
     });
     await newDevice.save();
@@ -68,9 +62,15 @@ router.get("/getdevices", async (req, res) => {
   try {
     const {province } = req.body;
     console.log(req.body)
-    var deviceList = await Device.find().populate({path: 'stationId', model:'Station',select:['ward'],match:{province: province}})
-    console.log(deviceList)
-    return res.status(200).json({deviceList});
+    var finalList = []
+    var deviceList = await Device.find().populate({path: 'stationId', model:'Station',match:{province: province}})
+    console.log(typeof(deviceList))
+    for(var i =0; i<deviceList.length ;i++ ){
+      if(deviceList[i]['stationId'] !== null){
+        finalList.push(deviceList[i])
+      }
+    }
+    return res.status(200).json({finalList});
   } catch (err) {
     return res.status(500).json(err);
   }
