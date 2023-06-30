@@ -76,7 +76,7 @@ router.get("/getdevices", async (req, res) => {
   }
 });
 
-router.get("/getStationFromArea", async (req, res) => {
+router.post("/getStationFromArea", async (req, res) => {
   try {
     const {province } = req.body;
     console.log(req.body)
