@@ -63,7 +63,7 @@ router.get("/getdevices", async (req, res) => {
     const {province } = req.body;
     console.log(req.body)
     var finalList = []
-    var deviceList = await Device.find().populate({path: 'stationId', model:'Station',match:{province: province}})
+    var deviceList = await Device.find().populate({path: 'stationId', model:'Station',match:{}})
     console.log(typeof(deviceList))
     for(var i =0; i<deviceList.length ;i++ ){
       if(deviceList[i]['stationId'] !== null){
