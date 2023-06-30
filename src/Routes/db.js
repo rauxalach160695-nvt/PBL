@@ -69,7 +69,7 @@ router.get("/devices", (req, res) => {
 router.get("/weather", async (req, res) => {
   var listStation = [
     [21.2573, 105.85],
-    [21.0306, 105.8573],
+    [21.0292, 105.8573],
     [21.0448, 105.4404],
     [21.0034, 105.6323],
     [20.7627, 105.8318],
@@ -86,7 +86,7 @@ router.get("/weather", async (req, res) => {
   ];
 
   var checkStation = [
-    21.2573, 21.0306, 21.0448, 21.0034, 20.7627, 16.0503, 16.0695, 16.0974, 16,
+    21.2573, 21.0292, 21.0448, 21.0034, 20.7627, 16.0503, 16.0695, 16.0974, 16,
     16.0158, 11.0278, 10.8266, 10.7576, 10.5035, 10.7774,
   ];
   var loc = [
@@ -124,6 +124,7 @@ router.get("/weather", async (req, res) => {
           var temp = data["main"]["temp"];
           var humidity = data["main"]["humidity"];
           var wind = data["wind"]["speed"];
+          console.log(data['coord']['lat'])
           // console.log(temp, humidity, speed);
           // weather_result = `"${z}":{"temp":${temp},"humidity":${humidity},"speed":${speed}}`;
           // if (finalString === "") {
@@ -137,7 +138,6 @@ router.get("/weather", async (req, res) => {
             humidity: humidity,
             wind: wind,
           });
-          console.log(listStation.indexOf([21.0306, 105.8573]));
           z++;
           if (z === 15) {
             console.log(weather_result);
