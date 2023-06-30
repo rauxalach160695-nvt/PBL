@@ -46,10 +46,7 @@ router.get("/devices", (req, res) => {
   // });
 });
 
-
-
 //add user
-
 
 //núi đôi , soc son ,soc son:21.2573,105.85
 //hồng hà, chương dương , hoan kiem : 21.0306, 105.8573
@@ -69,7 +66,6 @@ router.get("/devices", (req, res) => {
 //Rừng Sác, An Thới Đông, Cần Giờ, Thành phố Hồ Chí Minh, Việt Nam : 10.5035, 106.8658
 //132-142 Đ. Nam Kỳ Khởi Nghĩa, Phường Bến Thành, Quận 1, Thành phố Hồ Chí Minh, Việt Nam :10.7774, 106.6974
 
-
 router.get("/weather", async (req, res) => {
   var listStation = [
     [21.2573, 105.85],
@@ -88,12 +84,34 @@ router.get("/weather", async (req, res) => {
     [10.5035, 106.8658],
     [10.7774, 106.6974],
   ];
+
+  var checkStation = [
+    21.2573, 21.0306, 21.0448, 21.0034, 20.7627, 16.0503, 16.0695, 16.0974, 16,
+    16.0158, 11.0278, 10.8266, 10.7576, 10.5035, 10.7774,
+  ];
+  var loc = [
+    "Sóc Sơn   Sóc Sơn   Hà Nội",
+    "Chương Dương   Hoàn Kiếm   Hà Nội",
+    "Yên Bái   Ba Vì   Hà Nội",
+    "Quốc Oai   Quốc Oai   Hà Nội",
+    "Hoàng Long   Phú Xuyên   Hà Nội",
+    "Hòa Thuận Đông   Hải Châu   Đà Nẵng",
+    "Xuân Hà   Thanh Khê   Đà Nẵng",
+    "Hoà Hiệp Nam   Liên Chiểu   Đà Nẵng",
+    "Hoà Hải   Ngũ Hành Sơn   Đà Nẵng",
+    "Khuê Trung   Cẩm Lệ   Đà Nẵng",
+    "Nhuận Đức   Củ Chi   Thành phố Hồ Chí Minh",
+    "Phước Long A   Quận 9   Thành phố Hồ Chí Minh",
+    "Lê Minh Xuân   Bình Chánh   Thành phố Hồ Chí Minh",
+    "An Thới Đông   Cần Giờ   Thành phố Hồ Chí Minh",
+    "Phường Bến Thành   Quận 1   Thành phố Hồ Chí Minh",
+  ];
   var weather_result = [];
   var z = 0;
   for (i in listStation) {
     var lat = listStation[i][0];
     var lon = listStation[i][1];
-   request(
+    request(
       "https://api.openweathermap.org/data/2.5/weather?lat=" +
         lat +
         "&lon=" +
@@ -102,6 +120,7 @@ router.get("/weather", async (req, res) => {
       function (error, response, body) {
         let data = JSON.parse(body);
         if (response.statusCode === 200) {
+          var location = loc[checkStation.indexOf(data['coord']['lat'])];
           var temp = data["main"]["temp"];
           var humidity = data["main"]["humidity"];
           var wind = data["wind"]["speed"];
@@ -112,23 +131,27 @@ router.get("/weather", async (req, res) => {
           // } else {
           //   finalString = finalString + "," + weather_result;
           // }
-          weather_result.push({"temp":temp,"humidity":humidity,"wind":wind})
-          // return response.json()
+          weather_result.push({
+            location: location,
+            temp: temp,
+            humidity: humidity,
+            wind: wind,
+          });
+          console.log(listStation.indexOf([21.0306, 105.8573]));
           z++;
           if (z === 15) {
+            console.log(weather_result);
             return res.status(200).json(weather_result);
           }
         }
       }
     );
-    
   }
-  
 });
 
 router.get("/getStation", async (req, res) => {
   try {
-    var listStation = await Station.find({})
+    var listStation = await Station.find({});
     return res.status(200).json(listStation);
   } catch (err) {
     return res.status(500).json({ err });
