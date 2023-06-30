@@ -76,6 +76,23 @@ router.get("/getdevices", async (req, res) => {
   }
 });
 
+router.get("/getStationFromArea", async (req, res) => {
+  try {
+    const {province } = req.body;
+    console.log(req.body)
+    var finalList = []
+    var StationList = await Station.find({province :province })
+    // console.log(typeof(deviceList))
+    // for(var i =0; i<deviceList.length ;i++ ){
+    //   if(deviceList[i]['stationId'] !== null){
+    //     finalList.push(deviceList[i])
+    //   }
+    // }
+    return res.status(200).json({StationList});
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
 //haichau
 // var Thanh Khe : 16.0695, 108.1966
 // var Lien Chieu : 16.0974, 108.1393
