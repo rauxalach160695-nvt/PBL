@@ -72,7 +72,7 @@ router.post("/login",(passport.authenticate('local', {session: false})), (req, r
   });
 
 router.get("/secret",(passport.authenticate('jwt', {session: false})), (req, res) => {
-    return res.status(200).json({ message: true })
+    return res.status(200).json({ message: req.user})
   });
 
   router.get("/userId", (req, res) => {
