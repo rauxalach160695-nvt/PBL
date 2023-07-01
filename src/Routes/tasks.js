@@ -27,10 +27,10 @@ router.post("/create", async (req, res) => {
 
 router.post("/gettasks",(passport.authenticate('jwt', {session: false})), async (req, res) => {
   try {
-    const {workSpace } = req.body;
+    // const {workSpace } = req.body;
     console.log(req.body)
     var finalList = []
-    var taskList = await Task.find().populate({path: 'userId', model:'User',match:{workSpace:workSpace}})
+    var taskList = await Task.find().populate({path: 'userId', model:'User',match:{workSpace:req.user['workSpace']}})
     // var taskList = await Task.find({})
     console.log(taskList)
     // console.log(typeof(deviceList))
