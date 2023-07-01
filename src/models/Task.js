@@ -10,7 +10,7 @@ const Task = new Schema({
     completed: { type: Boolean, required: true },
     dayStart: { type: Date, required: true, default: Date.now},
     dayEnd: { type: Date, required: true, default: Date.now},
-    deviceId: { type: Number, required: true, ref: 'Device'},
+    deviceId: { type: ObjectId, required: true, ref: 'Device'},
     userId : {type:ObjectId, required:true ,ref: 'Device'}
 });
 
