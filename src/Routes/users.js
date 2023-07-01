@@ -82,11 +82,12 @@ router.get("/secret",(passport.authenticate('jwt', {session: false})), (req, res
 
 
 
-router.get("/worker", async (req, res) => {
+router.post("/worker", async (req, res) => {
+  const {workSpace } = req.body;
   try {
     console.log("get worker")
     var listWorkerDetail =new Array();
-    var listWorker = await User.find({ role: 2 })
+    var listWorker = await User.find({ role: 2 ,workSpace: workSpace })
     console.log(typeof(listWorker))
     for (i in listWorker){
       listWorkerDetail.push(await UserDetail.findOne({userId: listWorker[i]._id})) 
